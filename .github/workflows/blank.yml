@@ -30,8 +30,8 @@ jobs:
           --entrypoint=/bin/sh zaproxy/zap-stable
           -c "zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config api.key=changeme"
 
-      - name: Wait for ZAP to be available
-        run: |
+          - name: Wait for ZAP to be available
+          run: |
           echo "Waiting for ZAP to be available..."
           for i in `seq 1 30`; do
             curl -sSf http://localhost:8080/ && break
@@ -39,12 +39,12 @@ jobs:
             sleep 5
           done
 
-      - name: Run OWASP ZAP Scan
-        run: |
+          - name: Run OWASP ZAP Scan
+          run: |
           docker run -v $(pwd):/zap/wrk/:rw --user root --network="host" zaproxy/zap-stable zap-baseline.py -t https://staging.furaha.financial/auth/ -r zap_report.html -I
 
-      - name: Upload ZAP Report
-        uses: actions/upload-artifact@v2
-        with:
+          - name: Upload ZAP Report
+          uses: actions/upload-artifact@v2
+          with:
           name: zap-report
           path: zap_report.html
