@@ -19,31 +19,9 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-          
-        
-    services:
-     zap:
-      image: zaproxy/zap-stable
-      ports:
-       - 8080:8080
-      options: >-
-       --entrypoint=/bin/sh zaproxy/zap-stable
-       -c "zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config api.key=changeme"
-      
-        - name: Wait for API to be available
-        run: |
-          echo "Waiting for API to be available..."
-          for i in `seq 1 30`; do
-            curl -sSf https://staging.furaha.financial/auth/ && break
-            echo "Waiting for API to be available..."
-            sleep 5
-          done
-        - name: Run OWASP ZAP Scan
-        run: |
-          docker run -v $(pwd):/zap/wrk/:rw --user root --network="host" zaproxy/zap-stable zap-baseline.py -t https://staging.furaha.financial/auth/ -r zap_report.html -I
-        - name: Upload ZAP Report
-        uses: actions/upload-artifact@v2
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.12.0
         with:
-          name: zap-report
-          path: zap_report.html
+          docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
+          target: 'https://staging.furaha.financial/auth/'
 
