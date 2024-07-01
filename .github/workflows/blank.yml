@@ -1,26 +1,3 @@
-Skip to content
-Navigation Menu
-naveen3399
-/
-test
-
-Type / to search
-
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-CD-auth-service
-Update blank.yml #24
-Jobs
-Run details
-Workflow file for this run
-.github/workflows/blank.yml at 78596bf
 name: CD-auth-service
 on:
   push:
