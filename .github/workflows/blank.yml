@@ -24,6 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     name: DAST Scan
     steps:
+      - name: Log current directory
+        run: echo ${pwd}
       - name: Pull ZAP OWASP Image
         run: docker pull zaproxy/zap-stable 
       - name: Run ZAP API Scan
