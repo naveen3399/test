@@ -40,13 +40,13 @@ jobs:
         run: |
           echo "Waiting for API to be available..."
           for i in `seq 1 30`; do
-            curl -sSf {{ secrets.DEV_BASE_URL }}/auth/ && break
+            curl -sSf https://staging.furaha.financial/auth/ && break
             echo "Waiting for API to be available..."
             sleep 5
           done
         - name: Run OWASP ZAP Scan
         run: |
-          docker run -v $(pwd):/zap/wrk/:rw --user root --network="host" zaproxy/zap-stable zap-baseline.py -t {{ secrets.DEV_BASE_URL }}/auth/ -r zap_report.html -I
+          docker run -v $(pwd):/zap/wrk/:rw --user root --network="host" zaproxy/zap-stable zap-baseline.py -t https://staging.furaha.financial/auth/ -r zap_report.html -I
         - name: Upload ZAP Report
         uses: actions/upload-artifact@v2
         with:
