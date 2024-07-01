@@ -1,5 +1,4 @@
 name: CD-auth-service
-
 on:
   push:
     branches:
@@ -25,28 +24,13 @@ jobs:
     runs-on: ubuntu-latest
     name: DAST Scan
     steps:
-      - name: Set up environment variables
+      - name: Pull ZAP OWASP Image
+        run: docker pull owasp/zap2docker-weekly
+      - name: Run ZAP API Scan
         run: |
-          echo "AUTH1_DESCRIPTION=${{ secrets.AUTH1_DESCRIPTION }}" >> $GITHUB_ENV
-          echo "AUTH1_REPLACEMENT=${{ secrets.AUTH1_REPLACEMENT }}" >> $GITHUB_ENV
-          echo "AUTH2_DESCRIPTION=${{ secrets.AUTH2_DESCRIPTION }}" >> $GITHUB_ENV
-          echo "AUTH2_REPLACEMENT=${{ secrets.AUTH2_REPLACEMENT }}" >> $GITHUB_ENV
-
-      - name: ZAP Scan
-        uses: zaproxy/action-baseline@v0.12.0
-        with:
-          target: ${{ vars.DEV_BASE_URL }}
-          allow_issue_writing: false
-          config: |
-            replacer.full_list(0).description=${{ env.AUTH1_DESCRIPTION }}
-            replacer.full_list(0).enabled=true
-            replacer.full_list(0).matchtype=REQ_HEADER
-            replacer.full_list(0).matchstr=Authorization
-            replacer.full_list(0).regex=false
-            replacer.full_list(0).replacement=${{ env.AUTH1_REPLACEMENT }}
-            replacer.full_list(1).description=${{ env.AUTH2_DESCRIPTION }}
-            replacer.full_list(1).enabled=true
-            replacer.full_list(1).matchtype=REQ_HEADER
-            replacer.full_list(1).matchstr=AnotherHeader
-            replacer.full_list(1).regex=false
-            replacer.full_list(1).replacement=${{ env.AUTH2_REPLACEMENT }}
+          sudo docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-weekly zap-api-scan.py -t https://testing-qa.furaha.financial/auth/ -r zap_report.html -I
+      # - name: ZAP Scan
+      #   uses: zaproxy/action-baseline@v0.12.0
+      #   with:
+      #     target: ${{vars.DEV_BASE_URL}}
+      #     allow_issue_writing: false
