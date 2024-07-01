@@ -1,0 +1,163 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "furaha-api",
+    "version" : "2024-07-01 17:54:20UTC"
+  },
+  "servers" : [ {
+    "url" : "https://3pj31ooymh.execute-api.eu-west-2.amazonaws.com/{basePath}",
+    "variables" : {
+      "basePath" : {
+        "default" : ""
+      }
+    }
+  } ],
+  "paths" : {
+    "/auth/{proxy+}" : {
+      "parameters" : [ {
+        "name" : "proxy+",
+        "in" : "path",
+        "description" : "Generated path parameter for proxy+",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ],
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for ANY /auth/{proxy+}"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "requestParameters" : {
+            "overwrite:path" : "/$request.path.proxy"
+          },
+          "payloadFormatVersion" : "1.0",
+          "connectionId" : "1qohp5",
+          "type" : "http_proxy",
+          "httpMethod" : "ANY",
+          "uri" : "arn:aws:servicediscovery:eu-west-2:496776144465:service/srv-wikw5njezuww45or",
+          "connectionType" : "VPC_LINK"
+        }
+      }
+    },
+    "/customers/{proxy+}" : {
+      "parameters" : [ {
+        "name" : "proxy+",
+        "in" : "path",
+        "description" : "Generated path parameter for proxy+",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ],
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for ANY /customers/{proxy+}"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "requestParameters" : {
+            "overwrite:path" : "/$request.path.proxy"
+          },
+          "payloadFormatVersion" : "1.0",
+          "connectionId" : "1qohp5",
+          "type" : "http_proxy",
+          "httpMethod" : "ANY",
+          "uri" : "arn:aws:servicediscovery:eu-west-2:496776144465:service/srv-s7jukiz3cvyldxxn",
+          "connectionType" : "VPC_LINK"
+        }
+      }
+    },
+    "/notifications/{proxy+}" : {
+      "parameters" : [ {
+        "name" : "proxy+",
+        "in" : "path",
+        "description" : "Generated path parameter for proxy+",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ],
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for ANY /notifications/{proxy+}"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "requestParameters" : {
+            "overwrite:path" : "/$request.path.proxy"
+          },
+          "payloadFormatVersion" : "1.0",
+          "connectionId" : "1qohp5",
+          "type" : "http_proxy",
+          "httpMethod" : "ANY",
+          "uri" : "arn:aws:servicediscovery:eu-west-2:496776144465:service/srv-mtjc3saamcjps4ju",
+          "connectionType" : "VPC_LINK"
+        }
+      }
+    },
+    "/offers/{proxy+}" : {
+      "parameters" : [ {
+        "name" : "proxy+",
+        "in" : "path",
+        "description" : "Generated path parameter for proxy+",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ],
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for ANY /offers/{proxy+}"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "requestParameters" : {
+            "overwrite:path" : "/$request.path.proxy"
+          },
+          "payloadFormatVersion" : "1.0",
+          "connectionId" : "1qohp5",
+          "type" : "http_proxy",
+          "httpMethod" : "ANY",
+          "uri" : "arn:aws:servicediscovery:eu-west-2:496776144465:service/srv-favbnzb73bcqr4gb",
+          "connectionType" : "VPC_LINK"
+        }
+      }
+    },
+    "/reqs/{proxy+}" : {
+      "parameters" : [ {
+        "name" : "proxy+",
+        "in" : "path",
+        "description" : "Generated path parameter for proxy+",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ],
+      "x-amazon-apigateway-any-method" : {
+        "responses" : {
+          "default" : {
+            "description" : "Default response for ANY /reqs/{proxy+}"
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "requestParameters" : {
+            "overwrite:path" : "/$request.path.proxy"
+          },
+          "payloadFormatVersion" : "1.0",
+          "connectionId" : "1qohp5",
+          "type" : "http_proxy",
+          "httpMethod" : "ANY",
+          "uri" : "arn:aws:servicediscovery:eu-west-2:496776144465:service/srv-gwp7anoam2kma273",
+          "connectionType" : "VPC_LINK"
+        }
+      }
+    }
+  },
+  "x-amazon-apigateway-importexport-version" : "1.0"
+}
