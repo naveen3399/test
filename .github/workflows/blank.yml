@@ -27,8 +27,8 @@ jobs:
       ports:
        - 8080:8080
       options: >-
-       # --entrypoint=/bin/sh zaproxy/zap-stable
-       # -c "zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config api.key=changeme"
+       --entrypoint=/bin/sh zaproxy/zap-stable
+       -c "zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config api.key=changeme"
       
         - name: Wait for API to be available
         run: |
