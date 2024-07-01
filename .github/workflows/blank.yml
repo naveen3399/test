@@ -14,8 +14,8 @@ jobs:
       id-token: write
       contents: read
     defaults:
-      run:
-        working-directory: auth-service
+      # run:
+      #   working-directory: auth-service
     steps:
       - name: checkout
         uses: actions/checkout@v3
