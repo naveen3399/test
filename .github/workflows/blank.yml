@@ -25,7 +25,7 @@ jobs:
     name: DAST Scan
     steps:
       - name: Pull ZAP OWASP Image
-        run: docker pull owasp/zap2docker-weekly
+        run: docker pull zaproxy/zap-stable 
       - name: Run ZAP API Scan
         run: |
           sudo docker run -v $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py -t https://testing-qa.furaha.financial/auth/ -r zap_report.html -I
