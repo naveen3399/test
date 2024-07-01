@@ -40,7 +40,7 @@ jobs:
           done
         - name: Run OWASP ZAP Scan
         run: |
-          docker run zaproxy/zap-stable zap-baseline.py -t https://staging.furaha.financial/auth/ -r zap_report.html -I
+          docker run -v $(pwd):/zap/wrk/:rw --user root --network="host" zaproxy/zap-stable zap-baseline.py -t https://staging.furaha.financial/auth/ -r zap_report.html -I
         - name: Upload ZAP Report
         uses: actions/upload-artifact@v2
         with:
