@@ -32,11 +32,11 @@ jobs:
         run: docker pull zaproxy/zap-stable 
       # - name: copies json file
       #   run: cp
-      - name: Run ZAP API Scan
-        run: |
-          sudo docker run -v  $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py -t https://staging.furaha.financial/
-      # - name: ZAP Scan
-      #   uses: zaproxy/action-baseline@v0.12.0
-      #   with:
-      #     target: ${{vars.DEV_BASE_URL}}
-      #     allow_issue_writing: false
+      # - name: Run ZAP API Scan
+      #   run: |
+      #     sudo docker run -v  $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py -t https://staging.furaha.financial/
+      - name: ZAP Scan
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: ${{vars.DEV_BASE_URL}}
+          allow_issue_writing: false
