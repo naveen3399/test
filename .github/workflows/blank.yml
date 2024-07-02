@@ -44,3 +44,4 @@ jobs:
         with:
           target: ${{vars.DEV_BASE_URL}}
           allow_issue_writing: false
+          openapi_json: '.zap/openapi.json'
