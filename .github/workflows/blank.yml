@@ -35,7 +35,6 @@ jobs:
       - name: Run ZAP API Scan
         run: |
           sudo docker run -v  $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py -t https://staging.furaha.financial/
-          # openapi.json -f openapi -c api-scan.conf
       # - name: ZAP Scan
       #   uses: zaproxy/action-baseline@v0.12.0
       #   with:
