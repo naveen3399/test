@@ -28,4 +28,3 @@ jobs:
         run: |
           pwd
           python3 zap-scan.py  # Replace with your script name
-		  
