@@ -1,4 +1,4 @@
-name: OWASP ZAP Scan
+name: OWASP ZAP API Scan
 
 on:
   push:
@@ -9,22 +9,23 @@ on:
       - main
 
 jobs:
-  zap_scan:
+  owasp-zap-scan:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: |
-          pip install python-owasp-zap-v2.4
-
       - name: Run OWASP ZAP scan
         run: |
-          pwd
-          python3 zap-scan.py  # Replace with your script name
+          docker run --rm -v $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py \
+            -t https://develop.furaha.financial/auth/v1/auth/login \
+            -t https://develop.furaha.financial/auth/v1/auth/signup \
+            -t https://develop.furaha.financial/auth/v1/auth/verify-login-otp \
+            -f openapi \
+            -r testreport.html
+
+      - name: Upload OWASP ZAP report
+        uses: actions/upload-artifact@v2
+        with:
+          name: zap-report
+          path: testreport.html
