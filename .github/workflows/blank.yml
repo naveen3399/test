@@ -24,11 +24,13 @@ jobs:
     - name: Download and Install OWASP ZAP
       run: |
         sudo apt-get update
-        wget https://github.com/zaproxy/zaproxy/releases/download/v2.13.0/ZAP_2.13.0_Linux.tar.gz
-        tar -xvf ZAP_2.13.0_Linux.tar.gz
+        # Fetch the latest release URL dynamically
+        ZAP_LATEST_URL=$(curl -s https://api.github.com/repos/zaproxy/zaproxy/releases/latest | grep browser_download_url | grep Linux.tar.gz | cut -d '"' -f 4)
+        wget $ZAP_LATEST_URL -O ZAP_Linux.tar.gz
+        tar -xvf ZAP_Linux.tar.gz
         sudo mkdir -p /usr/local/zaproxy
-        sudo mv ZAP_2.13.0 /usr/local/zaproxy
-        sudo ln -s /usr/local/zaproxy/ZAP_2.13.0/zap.sh /usr/local/bin/zap.sh
+        sudo mv ZAP_*/ /usr/local/zaproxy
+        sudo ln -s /usr/local/zaproxy/ZAP_*/zap.sh /usr/local/bin/zap.sh
 
     - name: Install Python dependencies
       run: pip install python-owasp-zap-v2.4
