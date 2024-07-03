@@ -1,66 +1,38 @@
-name: CD-auth-service
+name: OWASP ZAP Scan
+
 on:
   push:
     branches:
-      - 'main'
-  workflow_dispatch:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  DeployDev:
-    environment:
-      name: Dev
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-    defaults:
-      run:
-        working-directory: auth-service
-    steps:
-      - name: checkout
-        uses: actions/checkout@v3
-        
   zap_scan:
     runs-on: ubuntu-latest
-    name: DAST Scan
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Log current directory
-        run: echo ${pwd}
-      - name: Pull ZAP OWASP Image
-        run: docker pull zaproxy/zap-stable 
-      # - name: copies json file
-      #   run: cp
-      - name: Start OWASP ZAP
-        run: |
-          sudo docker run -v $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py -u zap -p 8080:8080 -d zaproxy/zap-stable zap-api-scan.py -daemon -port 8080 -host 0.0.0.0 -config api.addrs.addr.name=.*
-          # sudo docker run -v  $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py -t https://staging.furaha.financial/
-      - name: Run OWASP ZAP Scan
-        run: docker exec -t $(docker ps -q -f "ancestor=zaproxy/zap-stable") zap-cli quick-scan -r -s xss,sqli https://develop.furaha.financial/auth/
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: OWASP ZAP Full Scan
-        run: docker exec -t $(docker ps -q -f "ancestor=zaproxy/zap-stable") zap-cli --api-key {ZAP_AUTH_HEADER_VALUE} --base-url https://develop.furaha.financial/auth/ start
-        env:
-          ZAP_API_KEY: ${{ secrets.ZAP_AUTH_HEADER_VALUE }}
-      - name: Report the Scan Results
-        run: docker exec -t $(docker ps -q -f "ancestor=zaproxy/zap-stable") zap-cli report -o /zap/wrk/zap_report.html -f html
-      - name: Upload ZAP Report
-        uses: actions/upload-artifact@v2
-        with:
-          name: zap-report
-          path: /zap/wrk/zap_report.html
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
 
+    - name: Install OWASP ZAP
+      run: |
+        sudo apt-get update
+        sudo apt-get install zaproxy
 
+    - name: Install Python dependencies
+      run: pip install python-owasp-zap-v2.4
 
-          
-      # - name: Add env variables
-      #   env: 
-      #     ZAP_AUTH_HEADER_VALUE: ${{ secrets.ZAP_AUTH_HEADER_VALUE }}
-      #   run: echo ${ZAP_AUTH_HEADER_VALUE}
-      # - name: ZAP Scan
-      #   uses: zaproxy/action-baseline@v0.12.0
-      #   with:
-      #     target: ${{vars.DEV_BASE_URL}}
-      #     allow_issue_writing: false
-      #     openapi_json: '.zap/openapi.json'
+    - name: Run ZAP scan
+      env:
+        ZAP_API_KEY: ${{ secrets.ZAP_AUTH_HEADER_VALUE }}  # Add your ZAP API key to GitHub Secrets
+      run: |
+        zap.sh -daemon -config api.key=${{ secrets.ZAP_AUTH_HEADER_VALUE }} -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true &
+        sleep 30
+        python your_scan_script.py
