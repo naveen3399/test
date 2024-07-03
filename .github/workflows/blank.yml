@@ -11,34 +11,19 @@ on:
 jobs:
   zap_scan:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Download and Install OWASP ZAP
-      run: |
-        sudo apt-get update
-        # Fetch the latest release URL dynamically
-        ZAP_LATEST_URL=$(curl -s https://api.github.com/repos/zaproxy/zaproxy/releases/latest | grep browser_download_url | grep Linux.tar.gz | cut -d '"' -f 4)
-        wget $ZAP_LATEST_URL -O ZAP_Linux.tar.gz
-        tar -xvf ZAP_Linux.tar.gz
-        sudo mkdir -p /usr/local/zaproxy
-        sudo mv ZAP_*/ /usr/local/zaproxy
-        sudo ln -s /usr/local/zaproxy/ZAP_*/zap.sh /usr/local/bin/zap.sh
+      - name: Install dependencies
+        run: |
+          python -m pip install zapv2
 
-    - name: Install Python dependencies
-      run: pip install python-owasp-zap-v2.4
-
-    - name: Run ZAP scan
-      env:
-        ZAP_API_KEY: ${{ secrets.ZAP_AUTH_HEADER_VALUE }}  # Add your ZAP API key to GitHub Secrets
-      run: |
-        zap.sh -daemon -config api.key=${{ secrets.ZAP_AUTH_HEADER_VALUE }} -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true &
-        sleep 30
-        python zap-scan.py
+      - name: Run OWASP ZAP scan
+        run: |
+          python zap_scan.py  # Replace with your script name
