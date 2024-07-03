@@ -1,30 +1,35 @@
-name: OWASP ZAP Scan
+name: OWASP ZAP API Scan
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push]
 
 jobs:
-  zap_scan:
+  owasp-zap-scan:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - name: Start OWASP ZAP Docker container
+        run: docker run -u zap -p 8080:8080 -i zaproxy/zap-stable  zap.sh -daemon -host 0.0.0.0 -port 8080
+
+      - name: Wait for ZAP to start
+        run: sleep 60  # Adjust sleep time as needed
+
+      - name: API Scanning with OWASP ZAP
+        run: |
+          docker run --network="host" zaproxy/zap-stable  zap-api-scan.py \
+          -t https://develop.furaha.financial/auth/v1/auth/signup/,https://develop.furaha.financial/auth/v1/auth/login/ \
+          -f openapi \
+          -l Medium \
+          -r report.html \
+          -J "-config api.disablekey=true" \
+          -z "-config api.disablekey=true" \
+          -r report.html
+
+      - name: Archive ZAP scan report
+        if: always()
+        uses: actions/upload-artifact@v2
         with:
-          python-version: '3.x'
-
-      - name: Install dependencies
-        run: |
-          pip install python-owasp-zap-v2.4
-
-      - name: Run OWASP ZAP scan
-        run: |
-          pwd
-          python3 zap-scan.py  # Replace with your script name
+          name: zap-scan-report
+          path: report.html
