@@ -18,7 +18,7 @@ jobs:
       - name: Run OWASP ZAP scan
         run: |
           docker run --rm -v $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py \
-            -t https://develop.furaha.financial/auth/v1/auth/verify-login-otp \
+            -t https://develop.furaha.financial/auth/ \
             -f openapi \
             -r testreport.html
             # -t https://develop.furaha.financial/auth/v1/auth/login \
