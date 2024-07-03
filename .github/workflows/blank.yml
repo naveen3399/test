@@ -22,7 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install zapv2
+          pip install python-owasp-zap-v2.4
 
       - name: Run OWASP ZAP scan
         run: |
