@@ -34,7 +34,7 @@ jobs:
       #   run: cp
       - name: Start OWASP ZAP
         run: |
-          sudo run: docker run -v $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py -u zap -p 8080:8080 -d zaproxy/zap-stable zap-api-scan.py -daemon -port 8080 -host 0.0.0.0 -config api.addrs.addr.name=.*
+          sudo docker run -v $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py -u zap -p 8080:8080 -d zaproxy/zap-stable zap-api-scan.py -daemon -port 8080 -host 0.0.0.0 -config api.addrs.addr.name=.*
           # sudo docker run -v  $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py -t https://staging.furaha.financial/
       - name: Run OWASP ZAP Scan
         run: docker exec -t $(docker ps -q -f "ancestor=zaproxy/zap-stable") zap-cli quick-scan -r -s xss,sqli https://develop.furaha.financial/auth/
