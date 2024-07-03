@@ -14,6 +14,14 @@ def start_session(session_name):
     zap.core.new_session(name=session_name, overwrite=True)
     print(f'Started new session: {session_name}')
 
+# Function to handle rule loading
+def load_scan_rule(rule_name):
+    try:
+        zap.pscan.load_scan_rule(rule_name)
+        print(f'Loaded scan rule: {rule_name}')
+    except Exception as e:
+        print(f'Error loading scan rule {rule_name}: {str(e)}')
+
 # Function to perform active scan
 def perform_active_scan(target_url):
     print(f'Scanning target: {target_url}')
@@ -25,6 +33,15 @@ def perform_active_scan(target_url):
 
 # Start a new session
 start_session('Furaha Financial API Scan')
+
+# Load custom scan rules
+custom_scan_rules = [
+    'org.zaproxy.zap.extension.pscanrules.AntiClickjackingScanRule',
+    # Add other rules as needed
+]
+
+for rule in custom_scan_rules:
+    load_scan_rule(rule)
 
 # Define your API endpoints
 api_endpoints = [
