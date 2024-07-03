@@ -35,4 +35,4 @@ jobs:
       run: |
         zap.sh -daemon -config api.key=${{ secrets.ZAP_AUTH_HEADER_VALUE }} -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true &
         sleep 30
-        python your_scan_script.py
+        python zap-scan.py
