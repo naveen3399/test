@@ -4,7 +4,7 @@ from zapv2 import ZAPv2
 zap = ZAPv2()
 
 # Define your target URL
-target = 'https://staging.furaha.financial/auth/'
+target = 'http://staging.furaha.financial/auth/'
 
 # Spider the target URL
 print('Spidering target %s' % target)
