@@ -32,16 +32,35 @@ jobs:
         run: docker pull zaproxy/zap-stable 
       # - name: copies json file
       #   run: cp
-      # - name: Run ZAP API Scan
-      #   run: |
-      #     sudo docker run -v  $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py -t https://staging.furaha.financial/
-      - name: Add env variables
-        env: 
-          ZAP_AUTH_HEADER_VALUE: ${{ secrets.ZAP_AUTH_HEADER_VALUE }}
-        run: echo ${ZAP_AUTH_HEADER_VALUE}
-      - name: ZAP Scan
-        uses: zaproxy/action-baseline@v0.12.0
+      - name: Start OWASP ZAP
+        run: |
+          sudo run: docker run -v $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py -u zap -p 8080:8080 -d zaproxy/zap-stable zap-api-scan.py -daemon -port 8080 -host 0.0.0.0 -config api.addrs.addr.name=.*
+          # sudo docker run -v  $(pwd):/zap/wrk/:rw -t zaproxy/zap-stable zap-api-scan.py -t https://staging.furaha.financial/
+      - name: Run OWASP ZAP Scan
+        run: docker exec -t $(docker ps -q -f "ancestor=zaproxy/zap-stable") zap-cli quick-scan -r -s xss,sqli https://develop.furaha.financial/auth/
+
+      - name: OWASP ZAP Full Scan
+        run: docker exec -t $(docker ps -q -f "ancestor=zaproxy/zap-stable") zap-cli --api-key {ZAP_AUTH_HEADER_VALUE} --base-url https://develop.furaha.financial/auth/ start
+        env:
+          ZAP_API_KEY: ${{ secrets.ZAP_AUTH_HEADER_VALUE }}
+      - name: Report the Scan Results
+        run: docker exec -t $(docker ps -q -f "ancestor=zaproxy/zap-stable") zap-cli report -o /zap/wrk/zap_report.html -f html
+      - name: Upload ZAP Report
+        uses: actions/upload-artifact@v2
         with:
-          target: ${{vars.DEV_BASE_URL}}
-          allow_issue_writing: false
-          openapi_json: '.zap/openapi.json'
+          name: zap-report
+          path: /zap/wrk/zap_report.html
+
+
+
+          
+      # - name: Add env variables
+      #   env: 
+      #     ZAP_AUTH_HEADER_VALUE: ${{ secrets.ZAP_AUTH_HEADER_VALUE }}
+      #   run: echo ${ZAP_AUTH_HEADER_VALUE}
+      # - name: ZAP Scan
+      #   uses: zaproxy/action-baseline@v0.12.0
+      #   with:
+      #     target: ${{vars.DEV_BASE_URL}}
+      #     allow_issue_writing: false
+      #     openapi_json: '.zap/openapi.json'
