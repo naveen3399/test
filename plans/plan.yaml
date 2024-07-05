@@ -2,14 +2,14 @@
 env:
   contexts:
   - name: "FurahaProject"
-      urls:
-        - "https://staging.furaha.financial/"
-      includePaths:
-        - "https://staging.furaha.financial/.*"
-      excludePaths: [ ]
-      authentication:
-        parameters: {}
-        verification:
+    urls:
+      - "https://staging.furaha.financial/"
+    includePaths:
+      - "https://staging.furaha.financial/.*"
+    excludePaths: [ ]
+    authentication:
+      parameters: {}
+      verification:
         method: "response"
         pollFrequency: 60
         pollUnits: "requests"
