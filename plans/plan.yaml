@@ -45,8 +45,8 @@ jobs:
     action: "add"                  
     type: "httpsender"                    
     engine: "Oracle Nashorn"                 
-    name: "GetToken"                 
-    file: "/zap/wrk/scripts/GetToken.js"
+    # name: "GetToken"                 
+    # file: "/zap/wrk/scripts/GetToken.js"
 - name: "activeScan"
   type: "activeScan"
   policyDefinition:
