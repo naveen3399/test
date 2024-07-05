@@ -17,7 +17,7 @@ jobs:
 
       - name: Run OWASP ZAP scan
         run: |
-          docker run -v $(pwd):/zap/wrk/:rwx -t softwaresecurityproject/zap-stable \
+          docker run --user root -v $(pwd):/zap/wrk/:rw -t softwaresecurityproject/zap-stable \
           zap.sh -cmd -autorun /zap/wrk/plans/plan.yaml
       - name: List output directory
         run: ls -la /zap/wrk
