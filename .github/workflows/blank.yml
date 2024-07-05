@@ -17,7 +17,7 @@ jobs:
 
       - name: Run OWASP ZAP scan
         run: |
-          docker run --rm -v $(pwd):/zap/wrk/:rw -t softwaresecurityproject/zap-stable \
+          docker run -v $(pwd):/zap/wrk/:rw -t softwaresecurityproject/zap-stable \
           zap.sh -cmd -autorun /zap/wrk/plans/plan.yaml
           # docker run -v $(pwd):/zap/wrk/:rw  --user root  softwaresecurityproject/zap-stable python3 /zap/zap-api-scan.py \
           # -t openapi.json -J dast-report.json -d -r dast-report.html -I -S -f openapi -z options.propsoftwaresecurityproject/zap-stable \
