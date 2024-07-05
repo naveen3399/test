@@ -37,7 +37,7 @@ jobs:
       urlRegex: true  
 - type: openapi     # OpenAPI definition import via file
   parameters:
-    apiFile: "/zap/wrk/openapi-specs/furaha.json" #Path
+    apiFile: "/zap/wrk/openapi.json" #Path
     # apiUrl:   # String: URL containing the OpenAPI definition
     # targetUrl: "https://<targetURL>"
 - type: script
