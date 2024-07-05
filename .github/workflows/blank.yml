@@ -19,7 +19,7 @@ jobs:
         run: |
           
           docker container run --platform linux/arm64 -v $(pwd):/zap/wrk/:rw -t softwaresecurityproject/zap-stable \
-          bash -c "zaproxy/zap-stable zap-api-scan.py -cmd -autorun /zap/wrk/plans/plan.yaml"
+          zap.sh -cmd -autorun /zap/wrk/plans/plan.yaml
           # docker run -v $(pwd):/zap/wrk/:rw  --user root  softwaresecurityproject/zap-stable python3 /zap/zap-api-scan.py \
           # -t openapi.json -J dast-report.json -d -r dast-report.html -I -S -f openapi -z options.propsoftwaresecurityproject/zap-stable \
           # python3 /zap/zap-api-scan.py -t swagger.yaml -J dast-report.json -d -r dast-report.html -I -S -f openapi -z options.prop
