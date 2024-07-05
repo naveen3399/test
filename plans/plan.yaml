@@ -1,0 +1,17 @@
+---
+env:
+  contexts:
+    - name: "security-scan"
+      urls:
+        - "https://<URL>"
+      includePaths:
+        - "https://<URL>.*"
+      excludePaths: [ ]
+      authentication:
+        parameters: {}
+  parameters:
+    failOnError: true
+    failOnWarning: false
+    progressToStdout: true
+  vars: { }
+jobs:
