@@ -1,17 +1,109 @@
 ---
 env:
   contexts:
-    - name: "security-scan"
+    - name: "FurahaProject"
       urls:
-        - "https://<URL>"
+        - "https://staging.furaha.financial/"
       includePaths:
-        - "https://<URL>.*"
+        - "https://staging.furaha.financial/.*"
       excludePaths: [ ]
       authentication:
         parameters: {}
+        verification:
+        method: "response"
+        pollFrequency: 60
+        pollUnits: "requests"
+    sessionManagement:
+      method: "cookie"
+      parameters: {}
   parameters:
     failOnError: true
     failOnWarning: false
     progressToStdout: true
   vars: { }
 jobs:
+- type: addOns                       
+  parameters:
+    updateAddOns: false               
+  install:                           
+  - ascanrules
+  - openapi
+- type: alertFilter
+  alertFilters:
+    - ruleId: 10021
+      ruleName: "X-Content-Type-Options Header Missing"
+      newRisk: "False Positive"
+      url: "https://staging.furaha.financial/.*"
+      urlRegex: true  
+- type: openapi     # OpenAPI definition import via file
+  parameters:
+    apiFile: "/zap/wrk/openapi-specs/furaha.json" #Path
+    # apiUrl:   # String: URL containing the OpenAPI definition
+    # targetUrl: "https://<targetURL>"
+- type: script
+  parameters:
+    action: "add"                  
+    type: "httpsender"                    
+    engine: "Oracle Nashorn"                 
+    name: "GetToken"                 
+    file: "/zap/wrk/scripts/GetToken.js"
+- name: "activeScan"
+  type: "activeScan"
+  policyDefinition:
+    rules: []
+- parameters:
+    template: "traditional-xml"
+    reportDir: "/zap/wrk/furahaXmlReport"
+    reportFile: "petStoreXmlReport"
+    reportTitle: "ZAP Scanning Report"
+    reportDescription: ""
+    displayReport: false
+  risks:
+    - "info"
+    - "low"
+    - "medium"
+    - "high"
+  confidences:
+    - "low"
+    - "medium"
+    - "high"
+    - "confirmed"
+  name: "report"
+  type: "report"
+- parameters:
+    template: "risk-confidence-html"
+    theme: "original"
+    reportDir: "/zap/wrk/furahaHtmlreport"
+    reportFile: ""
+    reportTitle: "ZAP Scanning Report"
+    reportDescription: ""
+    displayReport: false
+  risks:
+  - "info"
+  - "low"
+  - "medium"
+  - "high"
+  confidences:
+  - "falsepositive"
+  - "low"
+  - "medium"
+  - "high"
+  - "confirmed"
+  sections:
+  - "siteRiskCounts"
+  - "responseBody"
+  - "appendix"
+  - "alertTypes"
+  - "responseHeader"
+  - "alertTypeCounts"
+  - "riskConfidenceCounts"
+  - "alerts"
+  - "aboutThisReport"
+  - "contents"
+  - "requestBody"
+  - "reportDescription"
+  - "reportParameters"
+  - "requestHeader"
+  - "summaries"
+  name: "report"
+  type: "report"
