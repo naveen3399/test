@@ -39,7 +39,7 @@ jobs:
   parameters:
     apiFile: "/zap/wrk/openapi.json" #Path
     # apiUrl:   # String: URL containing the OpenAPI definition
-    # targetUrl: "https://<targetURL>"
+    targetUrl: "https://staging.furaha.financial/auth/"
 # - type: script
 #   parameters:
 #     action: "add"                  
