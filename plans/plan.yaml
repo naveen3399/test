@@ -68,7 +68,7 @@ jobs:
     - "medium"
     - "high"
     - "confirmed"
-  name: "report"
+  name: "xmlreport"
   type: "report"
 - parameters:
     template: "risk-confidence-html"
@@ -105,5 +105,5 @@ jobs:
   - "reportParameters"
   - "requestHeader"
   - "summaries"
-  name: "report"
+  name: "htmlreport"
   type: "report"
