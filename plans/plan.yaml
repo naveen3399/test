@@ -40,13 +40,13 @@ jobs:
     apiFile: "/zap/wrk/openapi.json" #Path
     # apiUrl:   # String: URL containing the OpenAPI definition
     # targetUrl: "https://<targetURL>"
-- type: script
-  parameters:
-    action: "add"                  
-    type: "httpsender"                    
-    engine: "Oracle Nashorn"                 
-    # name: "GetToken"                 
-    # file: "/zap/wrk/scripts/GetToken.js"
+# - type: script
+#   parameters:
+#     action: "add"                  
+#     type: "httpsender"                    
+#     engine: "Oracle Nashorn"                 
+#     # name: "GetToken"                 
+#     # file: "/zap/wrk/scripts/GetToken.js"
 - name: "activeScan"
   type: "activeScan"
   policyDefinition:
