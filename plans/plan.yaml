@@ -53,8 +53,8 @@ jobs:
     rules: []
 - parameters:
     template: "traditional-xml"
-    reportDir: "/zap/wrk/furahaXmlReport"
-    reportFile: "petStoreXmlReport"
+    reportDir: "/zap/wrk"
+    reportFile: "furahaXmlReport"
     reportTitle: "ZAP Scanning Report"
     reportDescription: ""
     displayReport: false
@@ -73,8 +73,8 @@ jobs:
 - parameters:
     template: "risk-confidence-html"
     theme: "original"
-    reportDir: "/zap/wrk/furahaHtmlreport"
-    reportFile: ""
+    reportDir: "/zap/wrk"
+    reportFile: "furahaHtmlreport"
     reportTitle: "ZAP Scanning Report"
     reportDescription: ""
     displayReport: false
