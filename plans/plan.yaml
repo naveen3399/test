@@ -22,12 +22,12 @@ env:
     progressToStdout: true
   vars: { }
 jobs:
-- type: addOns                       
-  parameters:
-    updateAddOns: false               
-  install:                           
-  - ascanrules
-  - openapi
+# - type: addOns                       
+#   parameters:
+#     updateAddOns: false               
+#   install:                           
+#   - ascanrules
+#   - openapi
 - type: alertFilter
   alertFilters:
     - ruleId: 10021
