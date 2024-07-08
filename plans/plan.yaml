@@ -76,7 +76,7 @@ jobs:
     reportDir: "/zap/wrk"
     reportFile: "furahaHtmlreport"
     reportTitle: "ZAP Scanning Report"
-    reportDescription: ""
+    # reportDescription: ""
     displayReport: false
   risks:
   - "info"
